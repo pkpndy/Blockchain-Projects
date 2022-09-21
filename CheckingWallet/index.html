@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="connectWallet()">
+      Connect address having Learn tokens
+    </button>
+    <button onclick="switchChain()">Switch to Smart chain</button>
+    <button onclick="checkBalance()">Check Balance</button>
+    <script>
+      let accounts;
+      async function connectWallet() {
+        accounts = await window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .catch((error) => {
+            console.log(error.code);
+          });
+        console.log("Your address");
+        console.log(accounts[0]);
+      }
+
+      async function switchChain() {
+        try {
+          await ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0x38" }],
+          });
+          console.log("Switched to Binance Smart Chain");
+        } catch (switchError) {
+          console.log(switchError);
+          console.log("Binance Smart Chain not found");
+        }
+      }
+
+      async function checkBalance() {
+        fetch(
+          `https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=0x94404bd14faf162233afc326bc01e327093b4cae&address=${accounts}&tag=latest&apikey=XEN9QUS2SBE5AYW4I1IJPR6HW1P5PT13Q1`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            let tokens = data.result / 1000000000000000000;
+            console.log("Number of learn tokens you have:", tokens);
+            if (tokens < 500) {
+              console.log(
+                `You need ${500 - tokens} tokens more for the new masterclass`
+              );
+            } else {
+              console.log(
+                "Congratulations! You are eligible for the new masterclass."
+              );
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    </script>
+  </body>
+</html>
