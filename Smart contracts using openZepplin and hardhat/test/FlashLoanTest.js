@@ -23,14 +23,15 @@ describe('FlashLoan', () => {
         //Deploy FlashLoan
         flashloan = await FlashLoan.deploy(token.address);
 
-        // Approve tokens without depositing
+        // Approve tokens before depositing
+        //approve(to, amount)
         transaction = await token.connect(deployer).approve(flashloan.address, ether(1000000));
         await transaction.wait();
 
-        // Deploy flash loan receiver 
+        // Deploy flash loan receiver
         flashloanReceiver = await FlashLoanReceiver.deploy(flashloan.address);
 
-        // Deposit tokens
+        // Deposit tokens to the pool
         transaction = await flashloan.connect(deployer).depositTokens(ether(1000000));
         await transaction.wait();
     })
