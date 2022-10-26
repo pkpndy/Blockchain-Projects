@@ -39,7 +39,7 @@
 
       async function checkBalance() {
         fetch(
-          `https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=0x94404bd14faf162233afc326bc01e327093b4cae&address=${accounts}&tag=latest&apikey=XEN9QUS2SBE5AYW4I1IJPR6HW1P5PT13Q1`
+          `https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=0x94404bd14faf162233afc326bc01e327093b4cae&address=${accounts}&tag=latest&apikey=`
         )
           .then((res) => res.json())
           .then((data) => {
